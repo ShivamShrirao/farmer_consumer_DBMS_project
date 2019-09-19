@@ -288,8 +288,9 @@ public class Registration extends javax.swing.JFrame {
                     db.prestmt.setInt(5, lastid);
                     db.prestmt.executeUpdate();
 
-                    db.prestmt = db.con.prepareStatement("insert into "+userType+"(uid) values(?)");
-                    db.prestmt.setInt(1, lastid);
+                    db.prestmt = db.con.prepareStatement("insert into ?(uid) values(?)");
+                    db.prestmt.setString(1, userType);
+                    db.prestmt.setInt(2, lastid);
                     db.prestmt.executeUpdate();
                 }
             }
