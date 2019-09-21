@@ -28,6 +28,7 @@ public class dbConnect {
 //            Class.forName("com.mysql.jdbc.Driver");			// deprecated
             con = DriverManager.getConnection("jdbc:mysql://"+hostname+":"+port+"/"+database, user, pass);
             stmt = con.createStatement();
+            System.out.println("\nConnected.");
         } catch (Exception e) {
                 System.out.println(e);
         }

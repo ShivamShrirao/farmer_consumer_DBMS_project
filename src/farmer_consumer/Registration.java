@@ -9,9 +9,6 @@ package farmer_consumer;
  *
  * @author admin
  */
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import javax.swing.JOptionPane;
 
 public class Registration extends javax.swing.JFrame {
@@ -19,7 +16,7 @@ public class Registration extends javax.swing.JFrame {
     /**
      * Creates new form Registration
      */
-    private dbConnect db = new dbConnect();
+    private final dbConnect db = new dbConnect();
     public Registration() {
         db.connect();
         initComponents();
@@ -230,23 +227,6 @@ public class Registration extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameActionPerformed
     
-    public static String getMD5(String input){
-        try{
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] mDigest = md.digest(input.getBytes());
-            BigInteger no = new BigInteger(1, mDigest);
-            String hash = no.toString(16);
-            while(hash.length()<32){
-                hash = "0" + hash;
-            }
-            return hash;
-        }
-        catch(NoSuchAlgorithmException e){
-            System.out.println(e);
-        }
-        return null;
-    }
-    
     private void registrationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrationBtnActionPerformed
         // TODO add your handling code here:
         String user = this.username.getText();
@@ -275,11 +255,11 @@ public class Registration extends javax.swing.JFrame {
                 else if(radioCustomer.isSelected())
                     userType = "customer";
                 else
-                    throw new Exception("Select user type.");
+                    throw new Exception("Select User type.");
                 int lastid;
                 db.prestmt = db.con.prepareStatement("insert into users(username,password,usertype,phone) values(?,?,?,?)");
                 db.prestmt.setString(1, user);
-                db.prestmt.setString(2, getMD5(pass));
+                db.prestmt.setString(2, Crypto.getMD5(pass));
                 db.prestmt.setString(3, userType);
                 db.prestmt.setString(4, phone);
                 db.prestmt.executeUpdate();
@@ -311,6 +291,7 @@ public class Registration extends javax.swing.JFrame {
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         // TODO add your handling code here:
+        db.close();
         Login login = new Login();
         login.setVisible(true);
         this.setVisible(false);

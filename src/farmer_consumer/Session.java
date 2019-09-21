@@ -10,10 +10,14 @@ package farmer_consumer;
  * @author archer
  */
 public class Session {
-    private static String username=null;
-    public static int uid=0;
+    public String username=null;
+    public int uid=-1;
     public Session(String user, int u_id){
         username=user;
         uid=u_id;
+    }
+    public void reset(){
+        username=null;
+        uid=-1;
     }
 }

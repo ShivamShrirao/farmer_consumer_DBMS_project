@@ -36,16 +36,13 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        userType = new javax.swing.ButtonGroup();
+        youAre = new javax.swing.ButtonGroup();
         jScrollBar1 = new javax.swing.JScrollBar();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        radioCustomer = new javax.swing.JRadioButton();
-        radioFarmer = new javax.swing.JRadioButton();
-        jLabel6 = new javax.swing.JLabel();
         loginBtn = new javax.swing.JButton();
         RegisterBtn = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -65,7 +62,7 @@ public class Login extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("TSCu_Comic", 1, 48)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(142, 146, 151));
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Welcome to E-MARKET");
         jLabel2.setToolTipText("");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, -1, -1));
@@ -81,25 +78,6 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Source Code Pro Light", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Login");
-
-        radioCustomer.setBackground(new java.awt.Color(47, 49, 54));
-        userType.add(radioCustomer);
-        radioCustomer.setForeground(new java.awt.Color(255, 255, 255));
-        radioCustomer.setText("Customer");
-        radioCustomer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radioCustomerActionPerformed(evt);
-            }
-        });
-
-        radioFarmer.setBackground(new java.awt.Color(47, 49, 54));
-        userType.add(radioFarmer);
-        radioFarmer.setForeground(new java.awt.Color(255, 255, 255));
-        radioFarmer.setText("Farmer");
-
-        jLabel6.setFont(new java.awt.Font("TSCu_Comic", 1, 16)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("You are a:");
 
         loginBtn.setBackground(new java.awt.Color(114, 137, 218));
         loginBtn.setFont(new java.awt.Font("TSCu_Comic", 1, 18)); // NOI18N
@@ -126,6 +104,7 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setText("Username");
 
         username.setBackground(new java.awt.Color(48, 51, 56));
+        username.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         username.setForeground(new java.awt.Color(255, 255, 255));
         username.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(114, 137, 218), 1, true));
         username.addActionListener(new java.awt.event.ActionListener() {
@@ -139,67 +118,60 @@ public class Login extends javax.swing.JFrame {
         jLabel5.setText("Password");
 
         password.setBackground(new java.awt.Color(48, 51, 56));
+        password.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         password.setForeground(new java.awt.Color(255, 255, 255));
         password.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(114, 137, 218), 1, true));
 
         jLabel7.setFont(new java.awt.Font("Liberation Serif", 3, 32)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(142, 146, 151));
-        jLabel7.setText("Fresh Farm Products One Click Away");
+        jLabel7.setText("Fresh Farm Products One Click Away !");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(password)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(username, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(RegisterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(128, 128, 128)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(password)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(username, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(radioCustomer)))
-                        .addGap(18, 18, 18)
-                        .addComponent(radioFarmer)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel7)
-                .addContainerGap(25, Short.MAX_VALUE))
+                                .addGap(79, 79, 79)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(RegisterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel7)))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(128, Short.MAX_VALUE)
                 .addComponent(jLabel7)
-                .addGap(54, 54, 54)
+                .addGap(44, 44, 44)
                 .addComponent(jLabel3)
                 .addGap(32, 32, 32)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(radioCustomer)
-                    .addComponent(radioFarmer)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(RegisterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(535, 0, 550, 658));
@@ -232,44 +204,59 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         String user = this.username.getText();
-        String pass = this.password.getText();
-        String userType = null;
-        int uid = 0;
-        if(radioFarmer.isSelected())
-        userType = "farmer";
-        if(radioCustomer.isSelected())
-        userType = "customer";
-        try {
+        try{
+            if (user.isEmpty()){
+                throw new Exception("Enter Username !");
+            }
+            String pass = this.password.getText();
+            if (pass.isEmpty()){
+                throw new Exception("Enter Password !");
+            }
+            int uid = -1;
             db.prestmt = db.con.prepareStatement("select uid from users where username=?");
             db.prestmt.setString(1,user);
             db.rs = db.prestmt.executeQuery();
             if(db.rs.next()){
-                uid = Integer.parseInt(db.rs.getString("last_id"));
+                uid = Integer.parseInt(db.rs.getString("uid"));
             }
             else{
-                JOptionPane.showMessageDialog(this, "Username not found !");
+                throw new Exception("Username or Password incorrect !");
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Session sess = new Session(user,uid);
-        if(userType.equals("farmer"))
-        {
-            FarmerLogin farmer = new FarmerLogin();
-            farmer.setVisible(true);
-            this.setVisible(false);
-        }
-        if(userType.equals("customer"))
-        {
-            CustomerLogin customer = new CustomerLogin();
-            customer.setVisible(true);
-            this.setVisible(false);
+            if(uid>0){
+                String userType="";
+                Session sess=null;
+                db.prestmt = db.con.prepareStatement("select password,usertype from users where uid=?");
+                db.prestmt.setInt(1,uid);
+                db.rs = db.prestmt.executeQuery();
+                if(db.rs.next()){
+                    String hash = Crypto.getMD5(pass);
+                    if(hash.equals(db.rs.getString("password"))){
+                        sess = new Session(user,uid);
+                    }
+                    else{
+                        throw new Exception("Username or Password incorrect !");
+                    }
+                    userType = db.rs.getString("usertype");
+                    if(userType.equals("farmer"))
+                    {
+                        FarmerLogin farmer = new FarmerLogin(sess);
+                        farmer.setVisible(true);
+                        this.setVisible(false);
+                    }
+                    if(userType.equals("customer"))
+                    {
+                        CustomerLogin customer = new CustomerLogin(sess);
+                        customer.setVisible(true);
+                        this.setVisible(false);
+                    }
+                    else
+                        throw new Exception("Unknown User Type !"+userType);
+                }
+            }                
+        }catch(Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_loginBtnActionPerformed
-
-    private void radioCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioCustomerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_radioCustomerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -313,16 +300,13 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JButton loginBtn;
     private javax.swing.JPasswordField password;
-    private javax.swing.JRadioButton radioCustomer;
-    private javax.swing.JRadioButton radioFarmer;
-    private javax.swing.ButtonGroup userType;
     private javax.swing.JTextField username;
+    private javax.swing.ButtonGroup youAre;
     // End of variables declaration//GEN-END:variables
 }
