@@ -251,6 +251,8 @@ public class Registration extends javax.swing.JFrame {
         // TODO add your handling code here:
         String user = this.username.getText();
         try{
+            if(user.isEmpty())
+                throw new Exception("Username cannot be Empty!");
             db.prestmt = db.con.prepareStatement("select uid from users where username=?");
             db.prestmt.setString(1,user);
             db.rs = db.prestmt.executeQuery();
@@ -259,8 +261,10 @@ public class Registration extends javax.swing.JFrame {
             }
             else{
                 String pass = this.password.getText();
+                if(pass.isEmpty())
+                    throw new Exception("Password cannot be Empty!");
                 String userType = null;
-                String phone = this.phoneNo.getText();     
+                String phone = this.phoneNo.getText();
                 String street = this.streetF.getText();
                 String city = this.cityF.getText();
                 String state = this.stateF.getText();
@@ -268,8 +272,10 @@ public class Registration extends javax.swing.JFrame {
 
                 if(radioFarmer.isSelected())
                     userType = "farmer";
-                if(radioCustomer.isSelected())
+                else if(radioCustomer.isSelected())
                     userType = "customer";
+                else
+                    throw new Exception("Select user type.");
                 int lastid;
                 db.prestmt = db.con.prepareStatement("insert into users(username,password,usertype,phone) values(?,?,?,?)");
                 db.prestmt.setString(1, user);
@@ -288,14 +294,18 @@ public class Registration extends javax.swing.JFrame {
                     db.prestmt.setInt(5, lastid);
                     db.prestmt.executeUpdate();
 
-                    db.prestmt = db.con.prepareStatement("insert into ?(uid) values(?)");
-                    db.prestmt.setString(1, userType);
-                    db.prestmt.setInt(2, lastid);
+                    db.prestmt = db.con.prepareStatement("insert into "+userType+"(uid) values(?)");
+                    db.prestmt.setInt(1, lastid);
                     db.prestmt.executeUpdate();
                 }
+                JOptionPane.showMessageDialog(this, "Account registerd.");
             }
-        } catch (Exception e) {
-            System.out.println(e);
+        }
+        catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(this, "Zip Code should be Integers.","Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_registrationBtnActionPerformed
 
