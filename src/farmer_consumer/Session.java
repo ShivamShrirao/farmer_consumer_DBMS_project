@@ -12,7 +12,8 @@ package farmer_consumer;
 public class Session {
     private static String username=null;
     public static int uid=0;
-    public Session(String user, int uid){
-        
+    public Session(String user, int u_id){
+        username=user;
+        uid=u_id;
     }
 }
