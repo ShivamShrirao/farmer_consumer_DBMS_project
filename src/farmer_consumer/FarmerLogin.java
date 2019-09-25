@@ -156,24 +156,19 @@ public class FarmerLogin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Tabs)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(250, 250, 250)
-                .addComponent(ViewStock)
-                .addGap(132, 132, 132)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fuser, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Addstock, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(250, 250, 250)
+                        .addComponent(ViewStock)
+                        .addGap(132, 132, 132)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fuser, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Addstock, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(ConfirmSelected)
                         .addGap(27, 27, 27))
@@ -191,10 +186,11 @@ public class FarmerLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(logOut)
                 .addGap(3, 3, 3)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(Addstock)
-                    .addComponent(ViewStock))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ViewStock)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(Addstock)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -222,7 +218,7 @@ public class FarmerLogin extends javax.swing.JFrame {
         try {
             db.prestmt = db.con.prepareStatement("select o.order_id,u.username,s.product_name,o.quantity,s.price from orders o,stock s,users u,customer c where o.status='confirmed' and o.stock_id=s.stock_id and u.uid=(select uid from customer where customer_id=o.customer_id) and o.farmer_id="+sess.typeid);
             db.rs = db.prestmt.executeQuery();
-            DefaultTableModel model = (DefaultTableModel)PendingTable.getModel();
+            DefaultTableModel model = (DefaultTableModel)ConfirmedTable.getModel();
             while(db.rs.next()){
                 model.addRow(new Object[]{db.rs.getInt("order_id"),db.rs.getString("username"),db.rs.getString("product_name"),db.rs.getFloat("quantity"),db.rs.getFloat("price")});
             }
@@ -235,11 +231,23 @@ public class FarmerLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         addStock ads = new addStock(sess);
         ads.setVisible(true);
-//        this.setVisible(false);   
     }//GEN-LAST:event_AddstockActionPerformed
 
     private void ConfirmSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmSelectedActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)PendingTable.getModel();
+        for(int i=0; i<model.getRowCount(); i++){
+            if((Boolean)model.getValueAt(i,0)){
+                int orderId = (Integer)model.getValueAt(i,1);
+                try {
+                    db.prestmt = db.con.prepareCall("{CALL confirm_order(?)}");
+                    db.prestmt.setInt(1, orderId);
+                    db.rs = db.prestmt.executeQuery();
+                } catch (SQLException ex) {
+                    Logger.getLogger(FarmerLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }                
+            }
+        }
     }//GEN-LAST:event_ConfirmSelectedActionPerformed
 
     private void ViewStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewStockActionPerformed
