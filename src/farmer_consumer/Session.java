@@ -11,10 +11,13 @@ package farmer_consumer;
  */
 public class Session {
     public String username=null;
+    public String userType=null;
     public int uid=-1;
-    public Session(String user, int u_id){
+    public int typeid=-1;
+    public Session(String user, int u_id, String ustyp){
         username=user;
         uid=u_id;
+        userType=ustyp;
     }
     public void reset(){
         username=null;

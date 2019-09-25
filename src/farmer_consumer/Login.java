@@ -231,12 +231,16 @@ public class Login extends javax.swing.JFrame {
                 if(db.rs.next()){
                     String hash = Crypto.getMD5(pass);
                     if(hash.equals(db.rs.getString("password"))){
-                        sess = new Session(user,uid);
+                        userType = db.rs.getString("usertype");
+                        sess = new Session(user,uid,userType);
+                        db.prestmt = db.con.prepareStatement("select "+userType+"_id from "+userType+" where uid=?");
+                        db.prestmt.setInt(1,uid);
+                        db.rs = db.prestmt.executeQuery();
+                        sess.typeid=db.rs.getInt(userType+"_id");
                     }
                     else{
                         throw new Exception("Username or Password incorrect !");
                     }
-                    userType = db.rs.getString("usertype");
                     if(userType.equals("farmer"))
                     {
                         FarmerLogin farmer = new FarmerLogin(sess);
