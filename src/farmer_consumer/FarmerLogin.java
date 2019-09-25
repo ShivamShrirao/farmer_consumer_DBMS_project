@@ -5,9 +5,7 @@
  */
 package farmer_consumer;
 
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -206,11 +204,12 @@ public class FarmerLogin extends javax.swing.JFrame {
             db.prestmt = db.con.prepareStatement("select o.order_id,u.username,s.product_name,o.quantity,s.price from orders o,stock s,users u,customer c where o.status='pending' and o.stock_id=s.stock_id and u.uid=(select uid from customer where customer_id=o.customer_id) and o.farmer_id="+sess.typeid);
             db.rs = db.prestmt.executeQuery();
             DefaultTableModel model = (DefaultTableModel)PendingTable.getModel();
+            model.setRowCount(0);
             while(db.rs.next()){
                 model.addRow(new Object[]{false,db.rs.getInt("order_id"),db.rs.getString("username"),db.rs.getString("product_name"),db.rs.getFloat("quantity"),db.rs.getFloat("price")});
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(viewStock.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
     
@@ -219,12 +218,18 @@ public class FarmerLogin extends javax.swing.JFrame {
             db.prestmt = db.con.prepareStatement("select o.order_id,u.username,s.product_name,o.quantity,s.price from orders o,stock s,users u,customer c where o.status='confirmed' and o.stock_id=s.stock_id and u.uid=(select uid from customer where customer_id=o.customer_id) and o.farmer_id="+sess.typeid);
             db.rs = db.prestmt.executeQuery();
             DefaultTableModel model = (DefaultTableModel)ConfirmedTable.getModel();
+            model.setRowCount(0);
             while(db.rs.next()){
                 model.addRow(new Object[]{db.rs.getInt("order_id"),db.rs.getString("username"),db.rs.getString("product_name"),db.rs.getFloat("quantity"),db.rs.getFloat("price")});
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(viewStock.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.out.println(e);
         }
+    }
+    
+    private void updateTables(){
+        fillPending();
+        fillConfirmed();
     }
     
     private void AddstockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddstockActionPerformed
@@ -236,18 +241,26 @@ public class FarmerLogin extends javax.swing.JFrame {
     private void ConfirmSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmSelectedActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)PendingTable.getModel();
+        boolean flag=false;
         for(int i=0; i<model.getRowCount(); i++){
             if((Boolean)model.getValueAt(i,0)){
+                flag=true;
                 int orderId = (Integer)model.getValueAt(i,1);
                 try {
                     db.prestmt = db.con.prepareCall("{CALL confirm_order(?)}");
                     db.prestmt.setInt(1, orderId);
                     db.rs = db.prestmt.executeQuery();
-                } catch (SQLException ex) {
-                    Logger.getLogger(FarmerLogin.class.getName()).log(Level.SEVERE, null, ex);
-                }                
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
         }
+        if(flag){
+            updateTables();
+            JOptionPane.showMessageDialog(this, "Order(s) Confirmed.");
+        }
+        else
+            JOptionPane.showMessageDialog(this, "None Selected.","Warning", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_ConfirmSelectedActionPerformed
 
     private void ViewStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewStockActionPerformed
