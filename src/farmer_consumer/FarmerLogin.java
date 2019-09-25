@@ -5,6 +5,11 @@
  */
 package farmer_consumer;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author admin
@@ -20,6 +25,9 @@ public class FarmerLogin extends javax.swing.JFrame {
         sess=ses;
         db.connect();
         initComponents();
+        this.fuser.setText("Farmer, "+sess.username+".");
+        fillPending();
+        fillConfirmed();
     }
 
     /**
@@ -40,10 +48,12 @@ public class FarmerLogin extends javax.swing.JFrame {
         ConfirmedTab = new javax.swing.JScrollPane();
         ConfirmedTable = new javax.swing.JTable();
         Addstock = new javax.swing.JButton();
-        Confirm1 = new javax.swing.JButton();
+        ConfirmSelected = new javax.swing.JButton();
         ViewStock = new javax.swing.JButton();
+        logOut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Farmer Page");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Orders");
@@ -52,25 +62,29 @@ public class FarmerLogin extends javax.swing.JFrame {
         jLabel2.setText("E-Market");
 
         fuser.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        fuser.setText("Farmer");
+        fuser.setText("Farmer,");
 
         PendingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Order id", "Customer", "Product", "Quantity", "Cost"
+                "Select", "Order id", "Customer", "Product", "Quantity", "Cost"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.Boolean.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         PendingTab.setViewportView(PendingTable);
@@ -79,10 +93,7 @@ public class FarmerLogin extends javax.swing.JFrame {
 
         ConfirmedTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Order id", "Customer", "Product", "Quantity", "Cost"
@@ -91,9 +102,16 @@ public class FarmerLogin extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         ConfirmedTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -109,16 +127,28 @@ public class FarmerLogin extends javax.swing.JFrame {
             }
         });
 
-        Confirm1.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        Confirm1.setText("Confirm Selected");
-        Confirm1.addActionListener(new java.awt.event.ActionListener() {
+        ConfirmSelected.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        ConfirmSelected.setText("Confirm Selected");
+        ConfirmSelected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Confirm1ActionPerformed(evt);
+                ConfirmSelectedActionPerformed(evt);
             }
         });
 
         ViewStock.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        ViewStock.setText("View Stock");
+        ViewStock.setText("View My Stock");
+        ViewStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewStockActionPerformed(evt);
+            }
+        });
+
+        logOut.setText("Log Out...");
+        logOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -134,17 +164,22 @@ public class FarmerLogin extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(266, 266, 266)
-                .addComponent(ViewStock, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134)
+                .addGap(250, 250, 250)
+                .addComponent(ViewStock)
+                .addGap(132, 132, 132)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(fuser, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Addstock, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Confirm1)
-                .addGap(27, 27, 27))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(ConfirmSelected)
+                        .addGap(27, 27, 27))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(logOut)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +188,9 @@ public class FarmerLogin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fuser, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(logOut)
+                .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(Addstock)
@@ -161,13 +198,39 @@ public class FarmerLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Confirm1)
+                .addComponent(ConfirmSelected)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void fillPending(){
+        try {
+            db.prestmt = db.con.prepareStatement("select o.order_id,u.username,s.product_name,o.quantity,s.price from orders o,stock s,users u,customer c where o.status='pending' and o.stock_id=s.stock_id and u.uid=(select uid from customer where customer_id=o.customer_id) and o.farmer_id="+sess.typeid);
+            db.rs = db.prestmt.executeQuery();
+            DefaultTableModel model = (DefaultTableModel)PendingTable.getModel();
+            while(db.rs.next()){
+                model.addRow(new Object[]{false,db.rs.getInt("order_id"),db.rs.getString("username"),db.rs.getString("product_name"),db.rs.getFloat("quantity"),db.rs.getFloat("price")});
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(viewStock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void fillConfirmed(){
+        try {
+            db.prestmt = db.con.prepareStatement("select o.order_id,u.username,s.product_name,o.quantity,s.price from orders o,stock s,users u,customer c where o.status='confirmed' and o.stock_id=s.stock_id and u.uid=(select uid from customer where customer_id=o.customer_id) and o.farmer_id="+sess.typeid);
+            db.rs = db.prestmt.executeQuery();
+            DefaultTableModel model = (DefaultTableModel)PendingTable.getModel();
+            while(db.rs.next()){
+                model.addRow(new Object[]{db.rs.getInt("order_id"),db.rs.getString("username"),db.rs.getString("product_name"),db.rs.getFloat("quantity"),db.rs.getFloat("price")});
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(viewStock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void AddstockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddstockActionPerformed
         // TODO add your handling code here:
         addStock ads = new addStock(sess);
@@ -175,9 +238,23 @@ public class FarmerLogin extends javax.swing.JFrame {
 //        this.setVisible(false);   
     }//GEN-LAST:event_AddstockActionPerformed
 
-    private void Confirm1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Confirm1ActionPerformed
+    private void ConfirmSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmSelectedActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Confirm1ActionPerformed
+    }//GEN-LAST:event_ConfirmSelectedActionPerformed
+
+    private void ViewStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewStockActionPerformed
+        // TODO add your handling code here:
+        viewStock vstk = new viewStock(sess);
+        vstk.setVisible(true);
+    }//GEN-LAST:event_ViewStockActionPerformed
+
+    private void logOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutActionPerformed
+        // TODO add your handling code here:
+        sess.reset();
+        Login login = new Login();
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_logOutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,7 +293,7 @@ public class FarmerLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Addstock;
-    private javax.swing.JButton Confirm1;
+    private javax.swing.JButton ConfirmSelected;
     private javax.swing.JScrollPane ConfirmedTab;
     private javax.swing.JTable ConfirmedTable;
     private javax.swing.JScrollPane PendingTab;
@@ -226,5 +303,6 @@ public class FarmerLogin extends javax.swing.JFrame {
     private javax.swing.JLabel fuser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton logOut;
     // End of variables declaration//GEN-END:variables
 }

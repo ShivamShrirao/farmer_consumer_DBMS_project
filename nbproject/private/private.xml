@@ -5,10 +5,12 @@
         <group>
             <file>file:/home/archer/NetBeansProjects/farmer_consumer_DBMS_project/src/farmer_consumer/FarmerLogin.java</file>
             <file>file:/home/archer/NetBeansProjects/farmer_consumer_DBMS_project/src/farmer_consumer/Crypto.java</file>
+            <file>file:/home/archer/NetBeansProjects/farmer_consumer_DBMS_project/src/farmer_consumer/viewStock.java</file>
             <file>file:/home/archer/NetBeansProjects/farmer_consumer_DBMS_project/src/farmer_consumer/CustomerLogin.java</file>
             <file>file:/home/archer/NetBeansProjects/farmer_consumer_DBMS_project/src/farmer_consumer/Registration.java</file>
             <file>file:/home/archer/NetBeansProjects/farmer_consumer_DBMS_project/src/farmer_consumer/Session.java</file>
             <file>file:/home/archer/NetBeansProjects/farmer_consumer_DBMS_project/src/farmer_consumer/dbConnect.java</file>
+            <file>file:/home/archer/NetBeansProjects/farmer_consumer_DBMS_project/src/farmer_consumer/addStock.java</file>
             <file>file:/home/archer/NetBeansProjects/farmer_consumer_DBMS_project/src/farmer_consumer/Login.java</file>
         </group>
     </open-files>

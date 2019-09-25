@@ -59,12 +59,6 @@ public class Registration extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registration");
 
-        username.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Username");
 
         jLabel2.setText("Password");
@@ -223,10 +217,6 @@ public class Registration extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
-    
     private void registrationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrationBtnActionPerformed
         // TODO add your handling code here:
         String user = this.username.getText();
@@ -294,7 +284,7 @@ public class Registration extends javax.swing.JFrame {
         db.close();
         Login login = new Login();
         login.setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_loginBtnActionPerformed
 
     /**

@@ -197,7 +197,7 @@ public class Login extends javax.swing.JFrame {
     private void RegisterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterBtnActionPerformed
         Registration registration = new Registration();
         registration.setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_RegisterBtnActionPerformed
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
@@ -234,9 +234,10 @@ public class Login extends javax.swing.JFrame {
                         userType = db.rs.getString("usertype");
                         sess = new Session(user,uid,userType);
                         db.prestmt = db.con.prepareStatement("select "+userType+"_id from "+userType+" where uid=?");
-                        db.prestmt.setInt(1,uid);
+                        db.prestmt.setInt(1,uid);                        
                         db.rs = db.prestmt.executeQuery();
-                        sess.typeid=db.rs.getInt(userType+"_id");
+                        if(db.rs.next())
+                            sess.typeid=db.rs.getInt(userType+"_id");
                     }
                     else{
                         throw new Exception("Username or Password incorrect !");
@@ -247,7 +248,7 @@ public class Login extends javax.swing.JFrame {
                         farmer.setVisible(true);
                         this.setVisible(false);
                     }
-                    if(userType.equals("customer"))
+                    else if(userType.equals("customer"))
                     {
                         CustomerLogin customer = new CustomerLogin(sess);
                         customer.setVisible(true);

@@ -8,6 +8,7 @@ package farmer_consumer;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,6 +28,11 @@ public class viewStock extends javax.swing.JFrame {
         try {
             db.prestmt = db.con.prepareStatement("select stock_id,product_name,available,price from stock where farmer_id="+sess.typeid);
             db.rs = db.prestmt.executeQuery();
+            DefaultTableModel model = (DefaultTableModel)showStock.getModel();
+            while(db.rs.next()){
+                model.addRow(new Object[]{db.rs.getInt("stock_id"),db.rs.getString("product_name"),db.rs.getFloat("available"),db.rs.getFloat("price")});
+                
+            }
         } catch (SQLException ex) {
             Logger.getLogger(viewStock.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -42,16 +48,14 @@ public class viewStock extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        showStock = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("My Stock");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        showStock.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Stock id", "Product", "Quantity", "Price"
@@ -60,12 +64,21 @@ public class viewStock extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
-        jScrollPane1.setViewportView(jTable1);
+        showStock.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        showStock.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jScrollPane1.setViewportView(showStock);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,6 +131,6 @@ public class viewStock extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable showStock;
     // End of variables declaration//GEN-END:variables
 }
