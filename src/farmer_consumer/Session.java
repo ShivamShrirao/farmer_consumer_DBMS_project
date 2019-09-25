@@ -21,6 +21,8 @@ public class Session {
     }
     public void reset(){
         username=null;
+        userType=null;
         uid=-1;
+        typeid=-1;
     }
 }
