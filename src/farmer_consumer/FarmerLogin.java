@@ -23,7 +23,7 @@ public class FarmerLogin extends javax.swing.JFrame {
         sess=ses;
         db.connect();
         initComponents();
-        this.fuser.setText("Farmer, "+sess.username+".");
+        this.fuser.setText("Welcome Farmer, "+sess.username+".");
         fillPending();
         fillConfirmed();
     }
@@ -60,7 +60,7 @@ public class FarmerLogin extends javax.swing.JFrame {
         jLabel2.setText("E-Market");
 
         fuser.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        fuser.setText("Farmer,");
+        fuser.setText("Welcome Farmer,");
 
         PendingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -154,7 +154,7 @@ public class FarmerLogin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Tabs)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,10 +162,13 @@ public class FarmerLogin extends javax.swing.JFrame {
                             .addComponent(jLabel1))
                         .addGap(250, 250, 250)
                         .addComponent(ViewStock)
-                        .addGap(132, 132, 132)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fuser, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Addstock, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(132, 132, 132)
+                                .addComponent(Addstock, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(67, 67, 67)
+                                .addComponent(fuser, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(26, 26, 26))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(ConfirmSelected)

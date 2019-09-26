@@ -6,9 +6,6 @@
 package farmer_consumer;
 
 import java.awt.Color;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -246,13 +243,14 @@ public class Login extends javax.swing.JFrame {
                     {
                         FarmerLogin farmer = new FarmerLogin(sess);
                         farmer.setVisible(true);
-                        this.setVisible(false);
+                        this.dispose();
                     }
                     else if(userType.equals("customer"))
                     {
                         CustomerLogin customer = new CustomerLogin(sess);
                         customer.setVisible(true);
-                        this.setVisible(false);
+                        this.dispose();
+;
                     }
                     else
                         throw new Exception("Unknown User Type !"+userType);
