@@ -217,7 +217,7 @@ public class FarmerLogin extends javax.swing.JFrame {
 
     private void fillPending(){
         try {
-            db.prestmt = db.con.prepareStatement("select o.order_id,u.username,s.product_name,o.quantity,s.price from orders o,stock s,users u,customer c where o.status='pending' and o.stock_id=s.stock_id and u.uid=(select uid from customer where customer_id=o.customer_id) and o.farmer_id="+sess.typeid);
+            db.prestmt = db.con.prepareStatement("select order_id,getCustomerName(customer_id) as username,getProductName(stock_id) as product_name,quantity,getPrice(stock_id) as price from orders where status='pending' and farmer_id="+sess.typeid);
             db.rs = db.prestmt.executeQuery();
             DefaultTableModel model = (DefaultTableModel)PendingTable.getModel();
             model.setRowCount(0);
@@ -231,7 +231,7 @@ public class FarmerLogin extends javax.swing.JFrame {
     
     private void fillConfirmed(){
         try {
-            db.prestmt = db.con.prepareStatement("select o.order_id,u.username,s.product_name,o.quantity,s.price from orders o,stock s,users u,customer c where o.status='confirmed' and o.stock_id=s.stock_id and u.uid=(select uid from customer where customer_id=o.customer_id) and o.farmer_id="+sess.typeid);
+            db.prestmt = db.con.prepareStatement("select order_id,getCustomerName(customer_id) as username,getProductName(stock_id) as product_name,quantity,getPrice(stock_id) as price from orders where status='confirmed' and farmer_id="+sess.typeid);
             db.rs = db.prestmt.executeQuery();
             DefaultTableModel model = (DefaultTableModel)ConfirmedTable.getModel();
             model.setRowCount(0);
