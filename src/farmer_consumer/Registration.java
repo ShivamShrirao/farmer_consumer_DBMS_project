@@ -235,11 +235,15 @@ public class Registration extends javax.swing.JFrame {
                     throw new Exception("Password cannot be Empty!");
                 String userType = null;
                 String phone = this.phoneNo.getText();
+                if(phone.length()!=10)
+                    throw new Exception("Phone number should be 10 digits!");
                 String street = this.streetF.getText();
                 String city = this.cityF.getText();
                 String state = this.stateF.getText();
-                int zip = Integer.parseInt((this.zipCode.getText()));
-
+                String zipc = this.zipCode.getText();
+                if(zipc.length()!=6)
+                    throw new Exception("Zip Code should be 6 digits!");
+                int zip = Integer.parseInt(zipc);
                 if(radioFarmer.isSelected())
                     userType = "farmer";
                 else if(radioCustomer.isSelected())
