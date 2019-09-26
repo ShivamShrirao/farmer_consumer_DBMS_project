@@ -5,6 +5,8 @@
  */
 package farmer_consumer;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +26,13 @@ public class CustomerLogin extends javax.swing.JFrame {
         db.connect();
         initComponents();
         this.cuser.setText("Welcome Customer, "+sess.username+".");
+        searchText.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                searchActionPerformed(ae);
+            }
+            
+        });
     }
 
     /**
@@ -224,7 +233,7 @@ public class CustomerLogin extends javax.swing.JFrame {
             }
         }
         if(flag){
-            JOptionPane.showMessageDialog(this, "Order(s) Added.");
+            JOptionPane.showMessageDialog(this, "Item(s) Added.");
         }
         else
             JOptionPane.showMessageDialog(this, "None Selected.","Warning", JOptionPane.WARNING_MESSAGE);

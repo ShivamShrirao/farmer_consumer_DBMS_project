@@ -106,13 +106,13 @@ public class Cart extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addComponent(updateCart)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(finaltotal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addGap(115, 115, 115)
                 .addComponent(placeOrder)
-                .addGap(20, 20, 20))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,7 +197,7 @@ public class Cart extends javax.swing.JFrame {
     private void showCart(){
         float finTot=0;
         try {
-            db.prestmt = db.con.prepareStatement("select c.cart_id,u.username,s.product_name,c.quantity,s.price from cart c,users u,stock s,farmer f where c.customer_id=? and f.farmer_id=c.farmer_id and u.uid=f.uid and s.stock_id=c.stock_id");
+            db.prestmt = db.con.prepareStatement("select cart_id,getFarmerName(farmer_id) as username,getProductName(stock_id) as product_name,quantity,getPrice(stock_id) as price from cart where customer_id=?");
             db.prestmt.setInt(1,sess.typeid);
             db.rs = db.prestmt.executeQuery();
             DefaultTableModel model = (DefaultTableModel)CartTable.getModel();

@@ -214,7 +214,7 @@ public class Login extends javax.swing.JFrame {
             db.prestmt.setString(1,user);
             db.rs = db.prestmt.executeQuery();
             if(db.rs.next()){
-                uid = Integer.parseInt(db.rs.getString("uid"));
+                uid = db.rs.getInt("uid");
             }
             else{
                 throw new Exception("Username or Password incorrect !");

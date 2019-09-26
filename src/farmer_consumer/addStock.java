@@ -43,7 +43,7 @@ public class addStock extends javax.swing.JFrame {
         cost = new javax.swing.JTextField();
         back = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        addButton1 = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add Stock");
@@ -78,11 +78,11 @@ public class addStock extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel5.setText("/-");
 
-        addButton1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        addButton1.setText("Add");
-        addButton1.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButton1ActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
@@ -111,7 +111,7 @@ public class addStock extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(back, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -133,7 +133,7 @@ public class addStock extends javax.swing.JFrame {
                     .addComponent(cost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(33, 33, 33)
-                .addComponent(addButton1)
+                .addComponent(addButton)
                 .addGap(47, 47, 47)
                 .addComponent(back)
                 .addContainerGap(46, Short.MAX_VALUE))
@@ -148,21 +148,42 @@ public class addStock extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_backActionPerformed
 
-    private void addButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButton1ActionPerformed
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
         try{
             String prdName = this.productName.getText();
+            int stock_id=-1;
             if(prdName.isEmpty())
                 throw new Exception("Product Name cannot be Empty!");
             float quant = Float.parseFloat(this.quantity.getText());
             float price = Float.parseFloat(this.cost.getText());
-            db.prestmt = db.con.prepareStatement("insert into stock(product_name,available,farmer_id,price) values(?,?,?,?)");
-            db.prestmt.setString(1, prdName);
-            db.prestmt.setFloat(2, quant);
-            db.prestmt.setInt(3, sess.typeid);
-            db.prestmt.setFloat(4, price);
-            db.prestmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Product added.");
+            db.prestmt = db.con.prepareStatement("select * from stock where farmer_id=?");
+            db.prestmt.setInt(1,sess.typeid);
+            db.rs = db.prestmt.executeQuery();
+            while(db.rs.next()){
+                float productPrice = db.rs.getFloat("price");
+                String product_name = db.rs.getString("product_name");
+                if (product_name.equals(prdName) && productPrice==price){
+                    stock_id=db.rs.getInt("stock_id");
+                    break;
+                }
+            }
+            if(stock_id>0){
+                db.prestmt = db.con.prepareStatement("update stock set available=available+? where stock_id=?");
+                db.prestmt.setFloat(1,quant);
+                db.prestmt.setInt(2,stock_id);
+                db.prestmt.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Product updated.");
+            }
+            else{
+                db.prestmt = db.con.prepareStatement("insert into stock(product_name,available,farmer_id,price) values(?,?,?,?)");
+                db.prestmt.setString(1, prdName);
+                db.prestmt.setFloat(2, quant);
+                db.prestmt.setInt(3, sess.typeid);
+                db.prestmt.setFloat(4, price);
+                db.prestmt.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Product added.");
+            }
         }
         catch (NumberFormatException e){
             JOptionPane.showMessageDialog(this, "Quantity and Cost should be Floats.","Warning", JOptionPane.WARNING_MESSAGE);
@@ -170,7 +191,7 @@ public class addStock extends javax.swing.JFrame {
         catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_addButton1ActionPerformed
+    }//GEN-LAST:event_addButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,7 +229,7 @@ public class addStock extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton1;
+    private javax.swing.JButton addButton;
     private javax.swing.JButton back;
     private javax.swing.JTextField cost;
     private javax.swing.JLabel jLabel1;
