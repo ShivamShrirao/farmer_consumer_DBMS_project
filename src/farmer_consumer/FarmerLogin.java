@@ -49,6 +49,7 @@ public class FarmerLogin extends javax.swing.JFrame {
         ConfirmSelected = new javax.swing.JButton();
         ViewStock = new javax.swing.JButton();
         logOut = new javax.swing.JButton();
+        deleteSelected = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Farmer Page");
@@ -148,6 +149,14 @@ public class FarmerLogin extends javax.swing.JFrame {
             }
         });
 
+        deleteSelected.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        deleteSelected.setText("Delete Selected");
+        deleteSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteSelectedActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -171,6 +180,8 @@ public class FarmerLogin extends javax.swing.JFrame {
                                 .addComponent(fuser, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(26, 26, 26))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(deleteSelected)
+                        .addGap(62, 62, 62)
                         .addComponent(ConfirmSelected)
                         .addGap(27, 27, 27))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -195,7 +206,9 @@ public class FarmerLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ConfirmSelected)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ConfirmSelected)
+                    .addComponent(deleteSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -280,6 +293,32 @@ public class FarmerLogin extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_logOutActionPerformed
 
+    private void deleteSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteSelectedActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)PendingTable.getModel();
+        boolean flag=false;
+        for(int i=0; i<model.getRowCount(); i++){
+            if((Boolean)model.getValueAt(i,0)){
+                flag=true;
+                int orderId = (Integer)model.getValueAt(i,1);
+                try {
+                    db.prestmt = db.con.prepareStatement("delete from orders where order_id=?");
+                    db.prestmt.setInt(1, orderId);
+                    db.rs = db.prestmt.executeQuery();
+                } catch (Exception e) {
+                    flag=false;
+                    System.out.println(e);
+                }
+            }
+        }
+        if(flag){
+            updateTables();
+            JOptionPane.showMessageDialog(this, "Order(s) Deleted.");
+        }
+        else
+            JOptionPane.showMessageDialog(this, "None Selected.","Warning", JOptionPane.WARNING_MESSAGE);
+    }//GEN-LAST:event_deleteSelectedActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -324,6 +363,7 @@ public class FarmerLogin extends javax.swing.JFrame {
     private javax.swing.JTable PendingTable;
     private javax.swing.JTabbedPane Tabs;
     private javax.swing.JButton ViewStock;
+    private javax.swing.JButton deleteSelected;
     private javax.swing.JLabel fuser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
