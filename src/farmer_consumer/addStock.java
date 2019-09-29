@@ -5,7 +5,6 @@
  */
 package farmer_consumer;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,7 +20,11 @@ public class addStock extends javax.swing.JFrame {
     private static Session sess = null;
     public addStock(Session ses) {
         sess=ses;
-        db.connect();
+        try {
+            db.connect();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
+        }
         initComponents();
     }
 

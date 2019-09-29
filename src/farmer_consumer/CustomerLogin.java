@@ -23,7 +23,11 @@ public class CustomerLogin extends javax.swing.JFrame {
     private static Session sess = null;
     public CustomerLogin(Session ses) {
         sess=ses;
-        db.connect();
+        try {
+            db.connect();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
+        }
         initComponents();
         this.cuser.setText("Welcome Customer, "+sess.username+".");
         searchText.addActionListener(new ActionListener(){
@@ -33,6 +37,7 @@ public class CustomerLogin extends javax.swing.JFrame {
             }
             
         });
+        searchText.requestFocus();
     }
 
     /**
@@ -197,9 +202,12 @@ public class CustomerLogin extends javax.swing.JFrame {
             while(db.rs.next()){
                 model.addRow(new Object[]{false,db.rs.getInt("stock_id"),db.rs.getString("product_name"),db.rs.getFloat("available"),db.rs.getString("username"),db.rs.getFloat("price")});
             }
+            if(model.getRowCount()==0){
+                throw new Exception("'"+prdct+"' not found!");
+            }
         }
         catch(Exception e){
-            System.out.println(e);
+            JOptionPane.showMessageDialog(this, e.getMessage(),"Not Found", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_searchActionPerformed
 

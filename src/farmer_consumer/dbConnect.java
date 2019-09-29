@@ -23,15 +23,10 @@ public class dbConnect {
     public PreparedStatement prestmt = null;
     public ResultSet rs = null;
     
-    public void connect() {
-        try {
-//            Class.forName("com.mysql.jdbc.Driver");			// deprecated
-            con = DriverManager.getConnection("jdbc:mysql://"+hostname+":"+port+"/"+database, user, pass);
-            stmt = con.createStatement();
-            System.out.println("\nConnected.");
-        } catch (Exception e) {
-                System.out.println(e);
-        }
+    public void connect() throws Exception {
+        con = DriverManager.getConnection("jdbc:mysql://"+hostname+":"+port+"/"+database, user, pass);
+        stmt = con.createStatement();
+        System.out.println("\nConnected.");
     }
     public void close() {
         try {

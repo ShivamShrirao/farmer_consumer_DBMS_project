@@ -6,8 +6,7 @@
 package farmer_consumer;
 
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,7 +22,11 @@ public class viewStock extends javax.swing.JFrame {
     private static Session sess = null;
     public viewStock(Session ses) {
         sess=ses;
-        db.connect();
+        try {
+            db.connect();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
+        }
         initComponents();
         try {
             db.prestmt = db.con.prepareStatement("select stock_id,product_name,available,price from stock where farmer_id="+sess.typeid);
@@ -34,7 +37,7 @@ public class viewStock extends javax.swing.JFrame {
                 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(viewStock.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
         }
     }
 

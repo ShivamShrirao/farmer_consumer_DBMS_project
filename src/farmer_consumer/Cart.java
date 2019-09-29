@@ -20,7 +20,11 @@ public class Cart extends javax.swing.JFrame {
     private static Session sess = null;
     public Cart(Session ses) {
         sess=ses;
-        db.connect();
+        try {
+            db.connect();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
+        }
         initComponents();
         showCart();
     }
@@ -122,11 +126,12 @@ public class Cart extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(placeOrder)
-                    .addComponent(finaltotal)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(updateCart))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(placeOrder)
+                        .addComponent(finaltotal)
+                        .addComponent(updateCart)))
                 .addGap(15, 15, 15))
         );
 

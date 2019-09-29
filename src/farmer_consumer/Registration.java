@@ -18,7 +18,11 @@ public class Registration extends javax.swing.JFrame {
      */
     private final dbConnect db = new dbConnect();
     public Registration() {
-        db.connect();
+        try {
+            db.connect();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
+        }
         initComponents();
     }
 

@@ -21,7 +21,11 @@ public class FarmerLogin extends javax.swing.JFrame {
     private static Session sess = null;
     public FarmerLogin(Session ses) {
         sess=ses;
-        db.connect();
+        try {
+            db.connect();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
+        }
         initComponents();
         this.fuser.setText("Welcome Farmer, "+sess.username+".");
         fillPending();

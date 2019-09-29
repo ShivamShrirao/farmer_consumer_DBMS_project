@@ -6,6 +6,8 @@
 package farmer_consumer;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,9 +21,27 @@ public class Login extends javax.swing.JFrame {
      */
     private dbConnect db = new dbConnect();
     public Login() {
-        this.getContentPane().setBackground(new Color(47,49,54));
-        db.connect();
+        try {
+            db.connect();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
+        }
         initComponents();
+        this.getContentPane().setBackground(new Color(47,49,54));
+        password.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                loginBtnActionPerformed(ae);
+            }
+            
+        });
+        username.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                loginBtnActionPerformed(ae);
+            }
+            
+        });
     }
 
     /**
@@ -207,6 +227,7 @@ public class Login extends javax.swing.JFrame {
             }
             String pass = this.password.getText();
             if (pass.isEmpty()){
+                password.requestFocus();
                 throw new Exception("Enter Password !");
             }
             int uid = -1;
@@ -255,8 +276,16 @@ public class Login extends javax.swing.JFrame {
                     else
                         throw new Exception("Unknown User Type !"+userType);
                 }
-            }                
-        }catch(Exception e) {
+            }
+        }
+        catch(NullPointerException e) {
+            try {
+                db.connect();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        catch(Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(),"Warning", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_loginBtnActionPerformed
