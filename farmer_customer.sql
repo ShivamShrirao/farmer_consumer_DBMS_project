@@ -175,7 +175,7 @@ CREATE TABLE `stock` (
   `farmer_id` int(11) DEFAULT NULL,
   `price` float DEFAULT NULL,
   PRIMARY KEY (`stock_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +184,7 @@ CREATE TABLE `stock` (
 
 LOCK TABLES `stock` WRITE;
 /*!40000 ALTER TABLE `stock` DISABLE KEYS */;
-INSERT INTO `stock` VALUES (5,'Wheat',377.2,2,20),(6,'Wheat',400,4,15),(7,'Rice',34,4,53),(8,'Rice',30,2,60);
+INSERT INTO `stock` VALUES (5,'wheat',377.2,2,20),(6,'wheat',400,4,15),(7,'rice',34,4,53),(8,'rice',30,2,60),(9,'barley',500,4,40);
 /*!40000 ALTER TABLE `stock` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -313,4 +313,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-30  5:49:41
+-- Dump completed on 2019-09-30  6:06:24
