@@ -35,7 +35,6 @@ public class CustomerLogin extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent ae) {
                 searchActionPerformed(ae);
             }
-            
         });
         searchText.requestFocus();
     }
@@ -56,8 +55,10 @@ public class CustomerLogin extends javax.swing.JFrame {
         searchText = new javax.swing.JTextField();
         search = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Results = new javax.swing.JTable();
+        results = new javax.swing.JTable();
         addtocart = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        sortOrder = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Customer Login");
@@ -93,7 +94,7 @@ public class CustomerLogin extends javax.swing.JFrame {
             }
         });
 
-        Results.setModel(new javax.swing.table.DefaultTableModel(
+        results.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -116,9 +117,9 @@ public class CustomerLogin extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        Results.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(Results);
-        Results.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        results.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(results);
+        results.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         addtocart.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         addtocart.setText("Add to Cart >>");
@@ -127,6 +128,11 @@ public class CustomerLogin extends javax.swing.JFrame {
                 addtocartActionPerformed(evt);
             }
         });
+
+        jLabel2.setText("Sort By:");
+
+        sortOrder.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Price", "Quantity", "Farmer" }));
+        sortOrder.setToolTipText("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,14 +143,18 @@ public class CustomerLogin extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 320, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cuser, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(search)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sortOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                         .addComponent(viewCart)
                         .addGap(83, 83, 83)
                         .addComponent(logOut)))
@@ -171,12 +181,14 @@ public class CustomerLogin extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(search)
-                            .addComponent(viewCart))
+                            .addComponent(viewCart)
+                            .addComponent(jLabel2)
+                            .addComponent(sortOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(14, 14, 14)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addtocart)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -194,10 +206,21 @@ public class CustomerLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         String prdct = this.searchText.getText();
         try{
-            db.prestmt = db.con.prepareStatement("select s.stock_id,s.product_name,s.available,u.username,s.price from stock s,users u where product_name like ? and u.uid=(select uid from farmer where farmer_id=s.farmer_id)");
+            String sortBy = (String)sortOrder.getSelectedItem();
+            String sorter="s.price";
+            if(sortBy.equals("Price")){
+                sorter="s.price";
+            }
+            else if(sortBy.equals("Quantity")){
+                sorter="s.available";
+            }
+            else if(sortBy.equals("Farmer")){
+                sorter="u.username";
+            }
+            db.prestmt = db.con.prepareStatement("select s.stock_id,s.product_name,s.available,u.username,s.price from stock s,users u where product_name like ? and u.uid=(select uid from farmer where farmer_id=s.farmer_id) ORDER BY "+sorter);
             db.prestmt.setString(1,prdct+"%");
             db.rs = db.prestmt.executeQuery();
-            DefaultTableModel model = (DefaultTableModel)Results.getModel();
+            DefaultTableModel model = (DefaultTableModel)results.getModel();
             model.setRowCount(0);
             while(db.rs.next()){
                 model.addRow(new Object[]{false,db.rs.getInt("stock_id"),db.rs.getString("product_name"),db.rs.getFloat("available"),db.rs.getString("username"),db.rs.getFloat("price")});
@@ -213,7 +236,7 @@ public class CustomerLogin extends javax.swing.JFrame {
 
     private void addtocartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addtocartActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel)Results.getModel();
+        DefaultTableModel model = (DefaultTableModel)results.getModel();
         boolean flag=false;
         for(int i=0; i<model.getRowCount(); i++){
             if((Boolean)model.getValueAt(i,0)){
@@ -232,7 +255,8 @@ public class CustomerLogin extends javax.swing.JFrame {
                     db.rs = db.prestmt.executeQuery();
                 }
                 catch (NullPointerException e){
-                    JOptionPane.showMessageDialog(this, "Press Enter on entering correct Quantity.","Warning", JOptionPane.WARNING_MESSAGE);
+                    results.requestFocus();
+                    JOptionPane.showMessageDialog(this, "Press 'Enter' on entering correct Quantity.","Warning", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
                 catch (Exception e) {
@@ -243,8 +267,10 @@ public class CustomerLogin extends javax.swing.JFrame {
         if(flag){
             JOptionPane.showMessageDialog(this, "Item(s) Added.");
         }
-        else
+        else{
+            results.requestFocus();
             JOptionPane.showMessageDialog(this, "None Selected.","Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_addtocartActionPerformed
 
     private void viewCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewCartActionPerformed
@@ -289,14 +315,16 @@ public class CustomerLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable Results;
     private javax.swing.JButton addtocart;
     private javax.swing.JLabel cuser;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton logOut;
+    private javax.swing.JTable results;
     private javax.swing.JButton search;
     private javax.swing.JTextField searchText;
+    private javax.swing.JComboBox<String> sortOrder;
     private javax.swing.JButton viewCart;
     // End of variables declaration//GEN-END:variables
 }

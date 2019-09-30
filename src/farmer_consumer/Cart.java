@@ -6,6 +6,8 @@
 
 package farmer_consumer;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,7 +41,7 @@ public class Cart extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        CartTable = new javax.swing.JTable();
+        cartTable = new javax.swing.JTable();
         updateCart = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         placeOrder = new javax.swing.JButton();
@@ -49,7 +51,7 @@ public class Cart extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("My Cart");
 
-        CartTable.setModel(new javax.swing.table.DefaultTableModel(
+        cartTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -72,7 +74,7 @@ public class Cart extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(CartTable);
+        jScrollPane1.setViewportView(cartTable);
 
         updateCart.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         updateCart.setText("Update Cart");
@@ -103,20 +105,20 @@ public class Cart extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(395, 395, 395)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addComponent(updateCart)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(finaltotal)
                 .addGap(115, 115, 115)
                 .addComponent(placeOrder)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,10 +126,10 @@ public class Cart extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(placeOrder)
                         .addComponent(finaltotal)
@@ -140,7 +142,7 @@ public class Cart extends javax.swing.JFrame {
 
     private void updateCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCartActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel)CartTable.getModel();
+        DefaultTableModel model = (DefaultTableModel)cartTable.getModel();
         for(int i=0; i<model.getRowCount(); i++){
             int cid=(Integer)model.getValueAt(i,0);
             try {
@@ -173,7 +175,12 @@ public class Cart extends javax.swing.JFrame {
 
     private void placeOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel)CartTable.getModel();
+        updateCartActionPerformed(evt);
+        DefaultTableModel model = (DefaultTableModel)cartTable.getModel();
+        if(model.getRowCount()==0){
+            JOptionPane.showMessageDialog(this, "Cart is Empty !","Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         Boolean flag=false;
         for(int i=0; i<model.getRowCount(); i++){
             int cid=(Integer)model.getValueAt(i,0);
@@ -205,7 +212,7 @@ public class Cart extends javax.swing.JFrame {
             db.prestmt = db.con.prepareStatement("select cart_id,getFarmerName(farmer_id) as username,getProductName(stock_id) as product_name,quantity,getPrice(stock_id) as price from cart where customer_id=?");
             db.prestmt.setInt(1,sess.typeid);
             db.rs = db.prestmt.executeQuery();
-            DefaultTableModel model = (DefaultTableModel)CartTable.getModel();
+            DefaultTableModel model = (DefaultTableModel)cartTable.getModel();
             model.setRowCount(0);
             while(db.rs.next()){
                 float qtt = db.rs.getFloat("quantity");
@@ -255,7 +262,7 @@ public class Cart extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable CartTable;
+    private javax.swing.JTable cartTable;
     private javax.swing.JLabel finaltotal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
