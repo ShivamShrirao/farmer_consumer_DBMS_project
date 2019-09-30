@@ -186,6 +186,7 @@ public class addStock extends javax.swing.JFrame {
                 db.prestmt.setFloat(4, price);
                 db.prestmt.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Product added.");
+                backActionPerformed(evt);
             }
         }
         catch (NumberFormatException e){
