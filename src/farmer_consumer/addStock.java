@@ -154,7 +154,7 @@ public class addStock extends javax.swing.JFrame {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
         try{
-            String prdName = this.productName.getText();
+            String prdName = this.productName.getText().toLowerCase();
             int stock_id=-1;
             if(prdName.isEmpty())
                 throw new Exception("Product Name cannot be Empty!");
