@@ -5,4 +5,4 @@ Disclaimer: Well 95% was a one nighter, so beware of code.
 
 ## How to run
 There's a sql database file outside, first setup that database.
-Then in the src folder, in Apache Netbeans run the Login.java file.
+Then in Apache Netbeans, in the src folder run the Login.java file.
