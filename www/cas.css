@@ -1,0 +1,94 @@
+table {
+	width: 100%;
+}
+table, th, td {
+  border: 1px solid black;
+  border-spacing: 50px;
+  padding: 5px;
+}
+th {
+	display: table-cell;
+	vertical-align: inherit;
+	font-weight: bold;
+	height: 40px;
+	 padding: 5px;
+}
+td {
+  padding: 5px;
+  border-spacing: 5px;
+}
+* {
+	box-sizing: border-box;
+}
+.a1{
+	height: 150px;
+	width: 100%;
+	background-color: #fff;
+}
+.a1-1{
+	height: 150px;
+	width: 30%;
+	display: inline;
+	float: left;
+}
+.a1-2{
+	height: 150px;
+	width: 70%;
+	display: inline;
+	float: right;
+	margin-top: -500px;
+	position: relative;
+}
+.a1-2-1{height: 80px;
+	width: 60%;
+	display: inline;
+	float: right;
+	margin-top: 60px;
+
+}
+.btn{height: 50px;
+	width: 130px;
+	text-decoration-style: none;
+	border: 0px; 
+	font-size: 18px;
+}
+.img{
+	height: 150px;
+	width: 200px;
+}
+.a2{
+	height: 350px;
+	width: 100%;
+}
+.backimg{
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+
+}
+.a3{
+	height: 100px;
+	width: 50%;
+	margin-top: 100px;
+	display: inline;
+	float: left;
+}
+.a4{
+height: 100px;
+width: 50%;
+display: inline;
+float: right;
+	margin-top: 100px;
+
+}
+.a5{
+height: 300px;
+width:90%;
+display: inline;
+float:right;
+	margin-top: 300px;
+}
+.cls-b{
+	font-size: 28px;
+}

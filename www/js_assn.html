@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JS ASSIGNMENT</title>
+</head>
+<script type="text/javascript">
+	function changeBGcolor()
+	{
+		var eID = document.getElementById("colors");
+		var colr = eID.options[eID.selectedIndex].text;
+		document.body.style.backgroundColor = colr;
+	}
+	function changePic()
+	{
+		var eID = document.getElementById("img");
+		var imID = document.getElementById("imgElem");
+		var idx = eID.options[eID.selectedIndex].value;
+		var images = ["bggg.jpg","beach.jpeg"]
+		imID.src = images[idx-2];
+	}
+</script>
+<body>
+	<script type="text/javascript">
+		var d = new Date();
+		var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+		document.body.innerHTML+="<br><center>"+days[d.getDay()]+", "+d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()+"</center>";
+	</script>
+	<br>
+	<center>
+		<select id="colors" onchange="changeBGcolor()">
+			<option value="1">Red</option>
+			<option value="2">Blue</option>
+			<option value="3">Green</option>
+			<option value="4">Yellow</option>
+			<option value="5">Orange</option>
+		</select>
+		<br>
+		<select id="img" onchange="changePic()">
+			<option value="1">Select</option>
+			<option value="2">Farm</option>
+			<option value="3">Beach</option>
+		</select>
+		<br>
+		<img id="imgElem" src="">
+	</center>
+</body>
+</html>

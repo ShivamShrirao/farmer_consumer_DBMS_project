@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Registration</title>
+</head>
+<style type="text/css">
+input, textarea {
+	border : 0px;
+	background-color : gray;
+}
+input[type="date"], textarea {
+	border : 50px;
+	background-color : gray;
+}
+</style>
+<body bgcolor="black" background="bggg.jpg" style=" background-size:cover;">
+	<font color="black">
+		<center>
+			<br>
+			<h1>REGISTRATION</h1>
+			<br><br>
+			<font color="white">
+			<form method="POST" id="form1" action="register.php">
+			<table border="0" bgcolor=#2C2F33 cellpadding="40"><tr><td bgcolor=#2C2F33>
+				Username :<br>
+				<input type="text" name="name"><br><br>
+				Password :<br>
+				<input type="password" name="pass"><br><br>
+				Phone Number :<br>
+				<input type="number" name="num"><br><br>
+				Street<br>
+				<input type="text" name="street"><br><br>
+				City<br>
+				<input type="text" name="city"><br><br>
+				State<br>
+				<input type="text" name="state"><br><br>
+				Zip Code :<br>
+				<input type="number" name="zip"><br><br>
+				Date of Birth :
+				<input type="date" name="date"><br><br>
+				&emsp;
+				<input type="radio" name="role" value="Customer" checked>Customer&emsp;
+				<input type="radio" name="role" value="Farmer">Farmer<br>
+				<br>
+				<font size="2" color="gray">
+					<input type="checkbox" name="checkbox"> I agree to <a href="http://terms.com">terms and conditions</a>.
+				</font>
+				<br><br>
+				<input type="submit" value="Register">
+			</td></tr></table>
+			</form>
+		</font>
+		</center>
+	</font>
+</body>
+</html>
